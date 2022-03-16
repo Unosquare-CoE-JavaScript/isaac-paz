@@ -149,3 +149,85 @@ const toSlug = (title) => {
 }
 
 ```
+
+This case is probably a observable side effect, one way we can push the problem
+down the road is returning a function
+
+```
+// not a function
+const toSlug = (title) => {
+    const urlFriendly = title.replace(/\W+/ig, '-')
+    if(urlFriendly.length < 1) {
+        throw new Error('is bad')
+    }
+    return urlFriendly
+}
+
+// function
+const toSlug = (title) => {
+    return new Promise((res, rej) => {
+        const urlFriendly = title.replace(/\W+/ig, '-')
+ 
+        if(urlFriendly.length < 1) {
+            rej(new Error('is bad'))
+        }
+        return res(urlFriendly)
+    })
+}
+```
+
+
+### Function or not Function
+
+Not a function it is not deterministic
+```
+const birthday = user => {                                                                                                                                                   
+    user.age += 1;                                                                                                                                                                  
+    return user;                                                                                                                                                                    
+} 
+```
+
+It is a Function
+```
+const shout = word =>
+    word.toUpperCase().concat("!")
+```
+
+It is not a function, because querySelector will return different values depending on the time it is called. so it is not deterministic
+```
+const headerText = header_selector =>
+    querySelector(header_selector).text()
+```
+
+Location is global it is not deterministic because same input different output
+```
+const parseQuery = () =>
+    location.search.substring(1).split('&').map(x => x.split('=')) 
+```
+
+
+It is a function
+```
+var parseQueryString = function(queryString) {                           
+    var params = {}, queries, temp, i, l;                                  
+ 
+    queries = queryString.split("&");                                      
+ 
+    for ( i = 0, l = queries.length; i < l; i++ ) {                        
+        temp = queries[i].split('=');                                      
+        params[temp[0]] = temp[1];                                         
+    }                                                                      
+ 
+    return params;                                                         
+};
+```
+
+## 3 Pure Function Advantages
+* Reliable (same input, same output)
+* Portable 
+* Reusable (They are not dependent of the environment)
+* Testable 
+* Composable
+* Properties/Contract
+
+PPTX Link: https://docs.google.com/presentation/d/1nj5xmsHeJh-6RdjLs1190Hwl8smclvFLePqPCTVsrYw/edit#slide=id.g61c861d54_010
