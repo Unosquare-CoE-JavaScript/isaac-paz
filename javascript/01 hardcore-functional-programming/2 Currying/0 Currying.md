@@ -149,6 +149,68 @@ console.log(result);
 
 There is a function on javascript that makes possible to implement currying called partial, but this course does not cover that, it is just another way to do currying
 
-## 5 Currying Exercises
+## 5 Currying Exercises And Solutions
 
-## 6 Currying Solutions
+1.- From
+```
+const words = function(str) {
+  return split(' ', str);
+}
+```
+To
+```
+//Split was already curried
+const words = split(' ')
+```
+
+2.- From
+
+```
+const sentences = xs => _.map(words, xs);
+```
+
+To
+```
+//As map is curried you can eliminate the xs argument as it is goint to be passes when called
+const sentences = _.map(words);
+```
+
+3.- From
+```
+const filterQs = function(xs) {
+  return _.filter(function(x){ return _.test(/q/ig, x);  }, xs);
+}
+```
+To
+```
+//Same we can eliminate xs, and its going to return a callable function like  (xs) => ...
+const filterQs = _.filter(_.test(/q/ig));
+```
+
+
+4.- From
+```
+const max = function(xs) {
+  return _.reduce(function(acc, x){
+    return _keepHighest(acc, x);
+  }, 0, xs);
+}
+```
+To
+```
+//We can eliminate all data naming as it is going to return a callable function 
+waiting to that argument to execute the logic
+const max = _.reduce(_keepHighest, 0)
+```
+
+5 Bonus 1
+```
+//Wrap slice built int function in a curried way
+const slice = _.curry((start, end, xs) => xs.slice(start, end))
+```
+
+6 Bonus 2
+```
+// use slice to define a function take() that takes n elements from an array. make it curried
+const take = slice(0)
+```
