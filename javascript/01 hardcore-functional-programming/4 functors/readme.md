@@ -1,10 +1,11 @@
 # Functors
 
+## 1 Definition
 In functional programming, a functor is a design pattern inspired by the definition from category theory, that allows for a generic type to apply a function inside without changing the structure of the generic type.
 
 (Any object that has a map method inside itself)
 
-## 1 Creating the identity Functor
+## 2 Creating the identity Functor
 
 **Identity functor example**
 
@@ -27,7 +28,7 @@ const nextCharForNumberString = (str) =>
     .fold(String.fromCharCode)
 ```
 
-## 2 Refactoring to Dot Chaining
+## 3 Refactoring to Dot Chaining
 
 Example of a refactor to Dot chaining
 
