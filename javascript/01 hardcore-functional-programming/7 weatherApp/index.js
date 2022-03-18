@@ -7,18 +7,25 @@ const Weather = (dt, temp) => ({
   temp,
 });
 
-const toWeather = (det, temp) => Weather(toDate(dt), toFarenheit(temp));
+const toFahrenheit = (k) => k + 1000;
 
-const getWeatherItem = zip;
-OpenWeather.fetch({ zip, apiKey })
-  .map((response) => response.list)
-  .map((weathers) => weathers.map((w) => Weather((w.main.dt, w.main.temp))));
+const toWeather = (dt, temp) =>
+  Weather(new Date(dt).toLocaleDateString(), toFahrenheit(temp));
+
+const prepareItem = (weather) => toWeather(weather.dt, weather.main.temp);
+
+const getWeatherItem = (zip) =>
+  OpenWeather.fetch({ zip, apiKey })
+    .map((json) => json.list.map(prepareItem))
+    .map((weathers) => weathers.map(toLi));
+
+const toLi = (weather) => `<li>${weather.dt}, ${weather.temp} </li>`;
 
 ///================
 const app = () => {
   const goButton = document.getElementById("go");
   const input = document.getElementById("zip");
-  const results = document.getElementById("result");
+  const results = document.getElementById("results");
 
   goButton.addEventListener("click", () => {
     const zip = input.value.trim();
@@ -27,3 +34,5 @@ const app = () => {
     });
   });
 };
+
+app();
