@@ -106,4 +106,11 @@ const getPort = () =>
 
 ## Debugging with logging 
 
-You can make a function t
+You can make a function to log the functor to know what is happening on the chain
+
+```
+const logIt = (x) => {
+  console.log(x);
+  return x;
+};
+```
