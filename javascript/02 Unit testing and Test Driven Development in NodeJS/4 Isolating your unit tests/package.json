@@ -1,0 +1,18 @@
+{
+  "name": "4-isolating-your-unit-tests",
+  "version": "1.0.0",
+  "description": "## 1 Test Doubles",
+  "main": "get_users.js",
+  "scripts": {
+    "test": "mocha get_users.spec.js "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "request": "^2.88.2",
+    "sinon": "^13.0.1",
+    "sinon-chai": "^3.7.0"
+  }
+}
