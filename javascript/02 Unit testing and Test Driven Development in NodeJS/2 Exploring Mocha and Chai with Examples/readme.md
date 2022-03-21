@@ -1,4 +1,4 @@
-# 1 Exploring Mocha and Chai
+# 2 Exploring Mocha and Chai
 
 ## 1 What is Mocha
 
