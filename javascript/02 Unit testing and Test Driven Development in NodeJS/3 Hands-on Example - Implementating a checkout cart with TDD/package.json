@@ -1,0 +1,12 @@
+{
+  "name": "3-hands-on-example---implementating-a-checkout-cart-with-tdd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "checkout.js",
+  "scripts": {
+    "test": "mocha ./checkout.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

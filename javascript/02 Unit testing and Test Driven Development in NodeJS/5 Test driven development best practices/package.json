@@ -1,0 +1,15 @@
+{
+  "name": "5-test-driven-development-best-practices",
+  "version": "1.0.0",
+  "description": "## 1 TDD Best Practices",
+  "main": "print.js",
+  "scripts": {
+    "test": "mocha ./test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nyc": "^15.1.0"
+  }
+}
