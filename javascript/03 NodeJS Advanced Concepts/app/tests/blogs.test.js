@@ -1,5 +1,7 @@
 const { expect } = require("chai");
 const { describe } = require("eslint/lib/rule-tester/rule-tester");
+const { get } = require("http");
+const { test } = require("ramda");
 const Page = require("./helpers/page");
 
 let page = undefined;
@@ -11,38 +13,28 @@ beforeEach(async () => {
 
 afterEach(async () => {
   try {
-    await page.close();
+    // await page.close();
   } catch (e) {}
 });
 
 describe("When Not logged in", async () => {
-  // test("User cannot create blog posts", async () => {
-  //   const result = await page.evaluate(() => {
-  //     return fetch("/api/blogs", {
-  //       method: "POST",
-  //       credentials: "same-origin",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ title: "My Title", content: "My content" }),
-  //     }).then((res) => res.json());
-  //   });
-  //   console.log(result);
-  //   expect(result).toEqual({ error: "You must log in!" });
-  // });
+  const actions = [
+    {
+      method: "get",
+      path: "https://localhost:3000/api/blogs/",
+    },
+    {
+      method: "post",
+      path: "https://localhost:3000/api/blogs/",
+      data: { title: "T", content: "C" },
+    },
+  ];
 
-  test("User cannot get a list of posts", async () => {
-    const result = await page.evaluate(() => {
-      return fetch("/api/blogs", {
-        method: "GET",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json());
-    });
-    console.log(result);
-    expect(result).toEqual({ error: "You must log in!" });
+  test("Blog related actions are prohibited", async () => {
+    const results = await page.execRequest(actions);
+    for (let result of results) {
+      expect(result).toEqual({ error: "You must log in" });
+    }
   });
 });
 
