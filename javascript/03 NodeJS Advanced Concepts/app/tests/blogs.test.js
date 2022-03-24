@@ -1,14 +1,10 @@
-const { expect } = require("chai");
-const { describe } = require("eslint/lib/rule-tester/rule-tester");
-const { get } = require("http");
-const { test } = require("ramda");
 const Page = require("./helpers/page");
 
 let page = undefined;
 
 beforeEach(async () => {
   page = await Page.build();
-  await page.goto("localhost:3000");
+  await page.goto("http://localhost:3000");
 });
 
 afterEach(async () => {
@@ -21,11 +17,11 @@ describe("When Not logged in", async () => {
   const actions = [
     {
       method: "get",
-      path: "https://localhost:3000/api/blogs/",
+      path: "/api/blogs/",
     },
     {
       method: "post",
-      path: "https://localhost:3000/api/blogs/",
+      path: "/api/blogs/",
       data: { title: "T", content: "C" },
     },
   ];
@@ -33,7 +29,7 @@ describe("When Not logged in", async () => {
   test("Blog related actions are prohibited", async () => {
     const results = await page.execRequest(actions);
     for (let result of results) {
-      expect(result).toEqual({ error: "You must log in" });
+      expect(result).toEqual({ error: "You must log in!" });
     }
   });
 });
