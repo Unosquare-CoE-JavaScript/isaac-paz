@@ -1,11 +1,11 @@
-# 5 Automated Headless Browser Testing
+# 4 Automated Headless Browser Testing
 
-## Differences between Unit testing an Integration testing
+## 1 Differences between Unit testing an Integration testing
 
 - Unit testing = Assert that one piece of you app is working the way you expect
 - Integration Testing = Make sure that multiple 'units' work together correctly
 
-## Puppeteer
+## 2 Puppeteer
 
 Allows us to launch a headless browser and interact with it programmatically
 
@@ -23,7 +23,7 @@ Allows us to launch a headless browser and interact with it programmatically
   - evaluate: Allows us to execute javascript code direct in the browser
   - click: Allows us to perform a click on a selector on the page
 
-## Jest
+## 3 Jest
 
 it is a testing framework pretty alike other
 
@@ -58,7 +58,7 @@ mongoose.connect(keys.mongoURI, { userMongoClient: true });
 - afterEach: allows us to run code after each test case
 - describe: Allows us to organize an group test cases and execute own beforeEach and afterEach to pre configure common situations to these test cases
 
-## Factories
+## 4 Factories
 
 These are functions that we are going to use a lot in our test cases so we make these to retrieve data we are going often need and don't want to handle this logic all the time
 
@@ -89,7 +89,7 @@ SessionFactory(Take an user an generate the cookies needed to certificated that 
 
 ```
 
-## Helpers and Proxy
+## 5 Helpers and Proxy
 
 These helpers allows us to reutilize code on all our test cases, we setup a Custom class to encapsulated the creation of the browser, page and the login logic to make it easy on all test cases to perform these actions
 

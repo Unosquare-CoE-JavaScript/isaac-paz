@@ -6,6 +6,6 @@ module.exports = {
     "mongodb://root:toor@localhost:27017/blog_dev?authSource=admin&readPreference=primary&ssl=false",
   cookieKey: "123123123",
   redisUrl: "redis://127.0.0.1:6379",
-  accessKeyId: "AKIARE6UYV3RJGLMMHP4",
-  secretAccessKey: "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",
+  accessKeyId: "Value",
+  secretAccessKey: "Secret",
 };

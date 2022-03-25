@@ -25,7 +25,7 @@ NodeJS give us the possibility to write javascript and it gives us also standard
 - **OS Scheduler**: Decides which thread should be processed at a given time (givin priority of urgent and critical threads)
 - **CPU Core**: Component responsible to run task that are given by threads (One core can handle more than 2 Thread via a process called multi-threading)
 
-## NodeJS Event loop
+## 4 NodeJS Event loop
 
 Node js run over one thread and inside that thread runs our Event Loop.
 

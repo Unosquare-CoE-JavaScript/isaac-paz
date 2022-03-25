@@ -1,4 +1,4 @@
-# Data Caching with Redis
+# 3 Data Caching with Redis
 
 Databases usually have implemented indexes when consulting data, but on other hand when we request data via some particular fields that do not have an index it turns to be pretty expensive in terms of efficiency.
 
@@ -6,7 +6,7 @@ It can seem obvious that the answer would be create more indexes but it will als
 
 Se have to come up with a different solution
 
-## Caching layer
+## 1 Caching layer
 
 ### Cache Server
 
@@ -18,7 +18,7 @@ It is very fast because it saves data in a key value pair logic so it does not n
 
 To interact with this server we are going to install a library called node-redis
 
-## Installing redis
+## 2 Installing redis
 
 - Via brew execute the following
   `brew install redis`

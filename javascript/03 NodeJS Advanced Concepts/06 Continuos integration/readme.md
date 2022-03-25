@@ -1,4 +1,4 @@
-# Continuos Integration
+# 5 Continuos Integration
 
 ### What is it?
 
@@ -8,7 +8,7 @@ Process to merger all code changes into a single branch
 
 Server that runs automatic checks (tests) on the codebase to ensure the changes have not broken anything
 
-## CI Flow
+## 1 CI Flow
 
 - Developer pushes code to github
 - Ci Server detects that a new push of code has occurred
@@ -23,7 +23,7 @@ Server that runs automatic checks (tests) on the codebase to ensure the changes 
 - CodeShip
 - AWS Codebuild
 
-## Set Up
+## 2 Set Up
 
 1.- First you have to make sure you have a mechanism to pass all your env to this new ci environment in this case we created this file : config/ci.js to handle all the environments
 
