@@ -5,7 +5,7 @@
 - In the past computer only could run one program at time
 - then multitasking was born and user start to run many programs a time
 - Preemptive multitasking is the model that most computer use now, the OS determine which program would run on which cpu on a given time
-- a Typical chunk of asyncronous javascript code using two different patters would be like this:
+- a Typical chunk of asynchronous javascript code using two different patters would be like this:
 
 ```
 //Callback model
@@ -84,7 +84,7 @@ console.error('Something went wrong:'); console.error(err);
 - Realms are instances of javascript environment as provided to javascript code, meaning each real get its own global object
 - you can refer to global object as globalThis on modern version of node and browsers
 
-On browser each iframe has its own realms that can be demostrated in this example
+On browser each iframe has its own realms that can be demonstrated in this example
 
 ```
 const iframe = document.createElement('iframe');
@@ -93,7 +93,7 @@ const FrameObject = iframe.contentWindow.Object; // Global object inside iframe 
 
 console.log(Object === FrameObject);// Returns false
 console.log(new Object() instanceof FrameObject); // Return false
-console.log(FrameObject.name); //Have the same name propery
+console.log(FrameObject.name); //Have the same name property
 ```
 
 - In NodeJS realms can be constructed with vm.createContext()
@@ -114,9 +114,9 @@ console.log(ContextObject.name);
 
 ## Hidden Threads
 
-- While our javascript code might run by default in a single thread, the proccess running our javascript uses many threads
-- Modern javsacript engines like V8 uses separated threads to handle garbage collector and other features that are not need to run in line with javascript execution
-- NodeJS uses libus as an OS dependency and it uses a pool of worker threads to avoud blocking program code when using otherwise-blockin APIs's (Filesystem for example)
+- While our javascript code might run by default in a single thread, the process running our javascript uses many threads
+- Modern javascript engines like V8 uses separated threads to handle garbage collector and other features that are not need to run in line with javascript execution
+- NodeJS uses libuv as an OS dependency and it uses a pool of worker threads to avoid blocking program code when using otherwise-blocking APIs's (Filesystem for example)
 - By default 4 of these thread are spawned, this number is configurable via the UV_THREADPOOL_SIZE env, with a value up to 1024
 - it important to measure how many threads your application is spawning as many native addons in the nodejs ecosystem spawn their own as well.
 
