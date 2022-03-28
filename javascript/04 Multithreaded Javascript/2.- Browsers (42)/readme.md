@@ -285,4 +285,4 @@ throw new TypeError(`Command ${method} not defined!`); }
 
 In this section we will mix JSON RPC and the command dispatcher pattern to end up with a way of working win web-workers easily
 
-See Example of a completed implementation on /2.- Browsers (42)/ch2-patterns
+See Example of a completed implementation on /2.- Browsers (42)/ch2-patterns 

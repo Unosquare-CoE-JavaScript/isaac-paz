@@ -1,0 +1,15 @@
+{
+  "name": "ch3-happycoin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "happycoin-piscina.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "piscina": "^3.2.0"
+  }
+}
