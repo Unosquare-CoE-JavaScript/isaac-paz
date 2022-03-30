@@ -112,7 +112,7 @@ console.log(ContextObject.name);
 
 **In any of these realm cases, we only still have one instruction pointer, and only code from one realm is running at a time, it is still a single threaded execution**
 
-## Hidden Threads
+### Hidden Threads
 
 - While our javascript code might run by default in a single thread, the process running our javascript uses many threads
 - Modern javascript engines like V8 uses separated threads to handle garbage collector and other features that are not need to run in line with javascript execution

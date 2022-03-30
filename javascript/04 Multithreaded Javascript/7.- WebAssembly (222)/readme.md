@@ -6,7 +6,7 @@
 - Generally, the memory used by WebAssembly modules is represented by ArrayBuffers, but it can also be represented by SharedArrayBuffers.
 - There are WebAssembly instructions for atomic operations, similar to the Atomics object we have in JavaScript.
 
-## Your First WebAssembly
+## 1 Your First WebAssembly
 
 - While WebAssembly is a binary format, a plain text format exists to represent it in human readable form.
 - The language for this WebAssembly text format is simply called WebAssembly text format, but the file extension typically used is .wat,
@@ -17,7 +17,7 @@
 
 Example path: 7.- WebAssembly (222)/ch7-wasm-add/add.js
 
-## Atomic Operaitons with WebAssembly
+## 2 Atomic Operaitons with WebAssembly
 
 - WebAssembly instructions often start with the type. In the case of atomic operations, the type is always i32 or i64, corresponding to 32-bit and 64-bit integers, respectively. All atomic operations have .atomic. next in the instruction name. After that, you’ll find the specific instruction name.
 - Let’s go over some of the atomic operation instructions.
@@ -30,7 +30,7 @@ Example path: 7.- WebAssembly (222)/ch7-wasm-add/add.js
 - When WebAssembly modules are initialized from JavaScript, they can be initialized with a linear memory provided as an option. This can be backed by a SharedArrayBuffer to enable usage across threads.
 - it’s incredibly tedious and painstaking to write. Luckily, we can compile higher-level languages down to WebAssembly.
 
-## Compiling C Programs to WebAssembly with Emscripten
+## 3 Compiling C Programs to WebAssembly with Emscripten
 
 - Emscripten has been the go-to way to compile C and C++ programs for use in JavaScript environments. Today, it supports multithreaded C and C++ code using web workers in browsers and worker_threads in Node.js
 - Indeed, the C code we wrote way back in Chapter 1 can be compiled without any editing!
@@ -42,14 +42,14 @@ docker run --rm -v $(pwd):/src -u $(id -u):$(id -g) \
     -s PTHREAD_POOL_SIZE=4 -o happycoin-threads.js
 ```
 
-## Other WebAssembly Compilers
+## 4 Other WebAssembly Compilers
 
 - WebAssembly was designed primarily as a compile target, rather than as a general- purpose language in its own right.
   - Clang/Clang++
   - Rust
   - AssemblyScript
 
-## AssemblyScript
+## 5 AssemblyScript
 
 - AssemblyScript is a subset of TypeScript that compiles to WebAssembly. Rather than compiling an existing langauge and providing implementations of existing system APIs, AssemblyScript was designed as a way to produce WebAssembly code with a much more familiar syntax than WAT.
 
@@ -71,7 +71,7 @@ export function add(a: i32, b: i32): i32 { return a + b
 - AssemblyScript doesn’t provide the ability to spawn threads, but threads can be spawned in the JavaScript environment, and SharedArrayBuffers can be used for the WebAssembly memory.
 - it supports atomic operations via a global atomics object
 
-## Happy-coin in AssemblyScript
+## 6 Happy-coin in AssemblyScript
 
 Example Path: 7.- WebAssembly (222)/ch7-happycoin-as
 

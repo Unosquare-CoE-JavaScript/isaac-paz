@@ -3,7 +3,7 @@
 - Multi-threading is done using web workers
 - Useful on nodejs tools like babel, typescript, heavy I/O
 
-## Before We Had Threads
+## 1 Before We Had Threads
 
 - Before worker-threads we had to use Processes
 - If shared memory is not important(and in many cases it is not) then its perfectly fine to solve these problems with processes
@@ -25,7 +25,7 @@ http.createServer((req, res) => {
 - The primary process listen to the events on the designed port and when a request is coming tha main thread handle this request to one of the slave process
 - Process do not share memory
 
-## The worker_threads Module
+## 2 The worker_threads Module
 
 - Nodejs has a built in module called worker_threads to support this functionality
 - Inside Nodejs worker you can user usual Nodejs API available via requires, or import
@@ -83,12 +83,12 @@ const { port } = workerData; port.on('message', msg => {
 
 ```
 
-## Happycoin: Revisited
+## 3 Happycoin: Revisited
 
 - When running the single thread version of happy-coin.js it takes almost 2 minutes to complete the task (3.- Nodejs (102)/ch3-happycoin/happycoin.js)
 - when running the multi-threaded version of happy-coin it takes about 30 seconds to finish the task 3.- Nodejs (102)/ch3-happycoin/happycoin-threads.js
 
-## Worker Pools with Piscina
+## 4 Worker Pools with Piscina
 
 - Piscina module encapsulates the work of setting up a bunch of worker threads and allocating tasks to them. The name of the module comes from the Italian word for “pool.”
 
@@ -131,7 +131,7 @@ assert.ok(typeof squareRootOfI === 'number'); });
 }
 ```
 
-## A Pool Full of Happy-coins
+## 5 A Pool Full of Happy-coins
 
 - To use piscina to produce Happycoins, we’ll use a slightly different approach from what we did in the original worker_threads implementation
 - Instead of getting a message back every time we have a Happycoin, we’ll batch them together and send them all at once when we’re done.

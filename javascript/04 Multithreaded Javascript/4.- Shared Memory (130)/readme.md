@@ -3,7 +3,7 @@
 - We have only done so using message-passing APIs, ultimately depending on the familiar event loop to handle the receipt of a message. This is a much less performant system than the threading code you worked with C
 - There are Two powerful tools available to your JavaScript applications: the Atomics object and the SharedArrayBuffer class to allows us to share memory between two threads with out depending on the event loop (message passing)
 
-## Intro to Shared Memory
+## 1 Intro to Shared Memory
 
 - For this example you will build a very basic application that is able to communicate between two web workers.
 
@@ -13,7 +13,7 @@
 
 In the example: 4.- Shared Memory (130)/ch4-web-workers/main.js, further the initial value passed in the buffer, there has not been any other form of messaging between main and child thread, so it is possible to share memory between threads, but it is not guarantee
 
-## Shared Memory in Node.JS
+## 2 Shared Memory in Node.JS
 
 - You can share data via an buffer(SharedArrayBuffer) that its value is updated automatically on both threads
 - Adding properties to the buffer array does not reflect on the others threads
@@ -21,7 +21,7 @@ In the example: 4.- Shared Memory (130)/ch4-web-workers/main.js, further the ini
 - See code example on 4.- Shared Memory (130)/ch4-node-workers/main_node.js
 - It is mostly similar but worker global is not available on NodeJS, one should use worker_threads to get the parentPort and the worker class
 
-## SharedArrayBuffer and TypedArrays
+## 3 SharedArrayBuffer and TypedArrays
 
 - Represent a buffer of binary data that is of fixed length and cannot be resized.
 - It can’t be directly modified. Instead, a “view” into the buffer must first be created.
@@ -69,7 +69,7 @@ ab.slice(-3, -2); // 5
   - setting a value with these views must be done with a BigInt, and the values retrieved will also be of type BigInt.
 - It is possible to pass more than one SharedArrayBuffer between threads, so if you find yourself needing to mix types, then you might benefit from having more than one buffer.
 
-## Atomic Methods for Data Manipulation
+## 4 Atomic Methods for Data Manipulation
 
 - Essentially, if an operation is atomic, it means that while the overall operation may be composed of multiple smaller steps, the overall operation is guaranteed to either entirely succeed or entirely fail.
 - JavaScript provides a global object named Atomics with several static methods available on it.
@@ -84,14 +84,14 @@ ab.slice(-3, -2); // 5
   - Atomics.sub() = This method subtracts the provided value from the existing value in typedArray that is located at index.
   - Atomics.xor() = This method performs a bitwise xor using value with the existing value in typedArray located at index.
 
-## Atomicity Concerns
+## 5 Atomicity Concerns
 
 - Imagine you have a Uint8Array named typedArray, and the 0th element is set to 7. Then, imagine that multiple threads have access to that same typedArray to change its value
 - Atomics guarantees that only one thread gets exclusive access to shared resources is called a critical section.
 - If one thread of your application is using the compareExchange() method, and another thread is directly reading and writing to the same buffer location, then the safety mechanisms will have been defeated and your application will have nondeterministic behavior.
 - Sadly, not all of the operations you’ll need to perform with shared memory can be represented using the Atomics methods. When that happens you’ll need to come up with a more manual locking mechanism
 
-## Data Serialization
+## 6 Data Serialization
 
 - Buffers are extremely powerful tools. That said, working with them from an entirely numeric point of view can start to get a little difficult. Sometimes you’ll need to store things that represent nonnumeric data using a buffer.
 - When this happens you’ll need to serialize that data in some manner before writing it to the buffer, and you’ll later need to deserialize it when reading from the buffer.
@@ -113,7 +113,7 @@ return !((view[0] & (1 << slot)) === 0);
 
 This code has some shortcomings and shouldn’t necessarily be used in production. For example, it isn’t meant for working with buffers that are larger than a single byte, and you’ll encounter undefined behavior when reading or writing to entries past 7. A production-ready version would consider the size of storage and do bounds checking, but that’s an exercise left to the reader.
 
-## Strings
+## 7 Strings
 
 - Best way to encode string is using utf-8 that takes up tu 14 bytes to represent an emoji, and also is backwards compatible with ASCII
 
@@ -150,7 +150,7 @@ dec.decode(view); // '€'
   dec.decode(ab);   // '€'
 ```
 
-## Objects
+## 8 Objects
 
 - Considering that objects can already be represented as strings using JSON, you do have the option of taking an object that you’d like to make use of across two threads, serializing it into a JSON string, and writing that string to an array buffer using the same TextEncoder API:
 - const enc = new TextEncoder();

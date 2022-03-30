@@ -2,7 +2,7 @@
 
 - This chapter covers additional functionality for coordinating reads and writes to shared data across threads for situations when the previously covered Atomics methods just aren’t enough.
 
-## Atomic Methods for Coordination
+## 1 Atomic Methods for Coordination
 
 - These methods only works on Int32Array and BigInt64Array instances and they only make sense when used with SharedArrayBuffer
 - If you try to use these methods with the wrong type of TypedArray, you’ll get errors
@@ -21,7 +21,7 @@
   - it can be useful in situations where a lock change is more convenient to signal another thread than to perform message-passing operations via postMessage()
   - Because this method doesn’t block the thread, it can be used in the main thread of an application.
 
-## Timing and Nondeterminism
+## 2 Timing and Nondeterminism
 
 - The Atomics.notify() function accepts an argument count that contains the number of threads to wake up. The glaring question in this situation is which threads get woken up and in which order?
 
@@ -34,14 +34,14 @@ Example on this path 5.- Advanced Shared Memory (151)/ch5-notify-order
 
 - In the example we can se that threads time out not by its time of creation but by its time of calling the method "await" and it it non deterministic, every time we execute the script it shows different results
 
-## Detecting Thread Preparedness (165)
+## 3 Detecting Thread Preparedness (165)
 
 - How can an application deterministically know when a thread has finished going through initial setup and is thus prepared to take on work?
   - A simple way to do so is to call postMessage() from within the worker threads to post back to the parent thread at some point during the onmessage() handler. This works because once the onmessage() handler has been called the worker thread has finished its initial setup and is now running JavaScript code.
 - Exercise - Example Path: 5.- Advanced Shared Memory (151)/ch5-notify-when-ready
 - Chrome seems to have better order and performance about initializing the threads
 
-## Example Application: Conway's Game of life
+## 4 Example Application: Conway's Game of life
 
 ### Single-Threaded Game of Life
 

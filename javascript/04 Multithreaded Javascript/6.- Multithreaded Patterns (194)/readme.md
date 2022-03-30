@@ -2,7 +2,7 @@
 
 - By examining these patterns you’ll get a much better feel for how the applications you develop can benefit from multithreading.
 
-## Thread Pool
+## 1 Thread Pool
 
 - Used in most multi-thread applications
 - A thread pool is a collection of homogeneous worker threads that are each capable of carrying out CPU-intensive tasks that the application may depend on
@@ -35,7 +35,7 @@
     - THREADS=3 STRATEGY=roundrobin node main.js
     - THREADS=3 STRATEGY=random node main.js
 
-## Mutex: A Basic Lock
+## 2 Mutex: A Basic Lock
 
 - A mutually exclusive lock, or mutex, is a mechanism for controlling access to some shared data.
 - A task acquires the lock in order to run code that accesses the shared data, and then releases the lock once it’s done.
@@ -56,14 +56,14 @@
   });
 ```
 
-## Streaming Data with Ring Buffers
+## 3 Streaming Data with Ring Buffers
 
 - A ring buffer is an implementation of a first-in-first-out (FIFO) queue, implemented using a pair of indices into an array of data in memory. Crucially, for efficiency, when data is inserted into the queue, it won’t ever move to another spot in memory. Instead, we move the indices around as data gets added to or removed from the queue. The array is treated as if one end is connected to the other, creating a ring of data. This means that if these indices are incremented past the end of the array, they’ll go back to the beginning.
 - Writing data moves the head forward, while reading data moves the tail forward
 
 Example Path: 6.- Multithreaded Patterns (194)/ch6-ring-buffering/ring-buffer.js
 
-## Actor Model
+## 4 Actor Model
 
 - With this model an actor is a primitive container that allows for executing code. An actor is capable of running logic, creating more actors, sending messages to other actors, and receiving messages.
 - The actor model is designed to allow computations to run in a highly parallelized manner without necessarily having to worry about where the code is running or even the protocol used to implement the communication.

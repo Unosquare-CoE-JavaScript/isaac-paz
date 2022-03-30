@@ -4,7 +4,7 @@
 - By and large the main reason to add workers to an application is to increase performance. But this trade-off comes with a cost of added complexity. The KISS principle, meaning “Keep It Simple, Stupid,” suggests that your applications should be so stupidly simple that anyone can quickly look at the code and get an understanding of it.
 - There are absolutely good reasons to add threads to an application, and as long as you’re measuring performance and confirming that speed gains outweigh added maintenance costs, then you’ve found yourself a situation deserving of threads.
 
-## When Not to Use
+## 1 When Not to Use
 
 - Threading is not a magic bullet capable of solving an application’s performance problems. It is usually not the lowest-hanging fruit when it comes to performance, either, and should often be done as a final effort.
 - This is particularly true in JavaScript, where multithreading isn’t as widely understood
@@ -29,7 +29,7 @@
 - The rule of thumb is that processes should scale horizontally. This is a fancy term meaning you should run multiple redundant versions of the program in an isolated manner
 - While adding additional processes instead of increasing thread count increases overall resource consumption, not to mention the overhead of wrapping processes in a container, larger companies usually prefer the scaling flexibility of this approach.
 
-## When to use
+## 2 When to use
 
 - Here are some of the most straightforward characteristics of such a problem to keep an eye out for:Here are some of the most straightforward characteristics of such a problem to keep an eye out for:
   - **Embarrassingly parallel**: This is a class of problems where a large task can be broken down into smaller tasks and very little or no sharing of state is required.
@@ -40,7 +40,7 @@
 
 Example of template rendering use case: 8.- Analysis (240)/ch8-template-render/server.js
 
-## Summary of Caveats
+## 3 Summary of Caveats
 
 - This is a combined list of the aforementioned caveats when working with threads in JavaScript:
 

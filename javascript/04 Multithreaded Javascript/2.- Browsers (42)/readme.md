@@ -118,7 +118,7 @@ self.onconnect = (event) => {
 
 ```
 
-## Advanced Shared Worker Usage
+## 4 Advanced Shared Worker Usage
 
 - Also have access to the importScripts() function for loading external JavaScript files
 - The shared worker instances do have access to a connect event, which can be handled with the self.onconnect() method
@@ -156,7 +156,7 @@ The full constructor for the SharedWorker class looks like this:
 - This state even persists through refreshes as long as one window remains open
 - However, that state would be lost if both pages were refreshed simultaneously
 
-## Service Workers
+## 5 Service Workers
 
 - A service worker functions as a sort of proxy that sits between one or more web pages running in the browser and the server
 - They are associated with potentiall y multiple pages
@@ -170,7 +170,7 @@ The full constructor for the SharedWorker class looks like this:
 - Async Await syntax is not supported on service workers
 -
 
-## Service Worker Hello World
+## 6 Service Worker Hello World
 
 ```
 let counter = 0;
@@ -207,7 +207,7 @@ self.onfetch = (event) => {
 
 ```
 
-## Advanced Service Worker Concepts
+## 7 Advanced Service Worker Concepts
 
 - Service workers are intended to only be used for performing asynchronous operations
 - localStorage API is not available
@@ -223,7 +223,7 @@ self.onfetch = (event) => {
 - activating = This stat happens when onactivated is called but the event.respondsWith() promise has not yet resolved
 - redundant= At this point, a newer version of the script has been loaded, and the previous script is no longer necessary
 
-## Message Passing Abstractions
+## 8 Message Passing Abstractions
 
 ### The RCP Pattern
 
