@@ -249,6 +249,24 @@ class IFax {
 ## 5 Dependency Inversion Principle
 
 - Define the relation that should have low level modules and high level modules
-- low level module
-- high level module
+- High level module should not depend on implementation of low level modules
 - Anything to do with dependency injection (It is a consequence)
+- Normally it would be implemented by an abstract class or a interface but since in javascript we do not have those tools it is just used with our Duck typing
+
+## 6 Gamma Categorization
+
+- Design patters are typically split into three categories
+- This is called Gamma Categorization after Erich Gamma, one of GoF authors
+
+**Categories**
+
+- **Creational Patterns**
+  - Deal with the creation (construction) of objects
+  - Explicit (constructor) and Implicit(Dependency Injection, reflection, etc)
+  - Wholesale (single statement) and piecewise(step-by-step)
+- **Structural Patterns**
+  - concerned with the structure (class members)
+  - Many patterns are wrappers that mimic the underlying class interface
+  - Stress the importance of good API design
+- **Behavioral patterns**
+  - They are all different; no central theme
