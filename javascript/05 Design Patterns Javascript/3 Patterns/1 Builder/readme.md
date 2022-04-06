@@ -9,3 +9,10 @@
 - Instead, opt for piecewise construction
 - Builder provides an API for construction an object step-by-step
 - It is just a separate component that helps you to build another object
+
+## Summary
+
+- A builder is a separated component for building an object
+- Can either give builder an initializer or return it via a static function
+- To make builder fluent, return self(this)
+- Different facets of an object can be build with different builder working in tandem via a base class
