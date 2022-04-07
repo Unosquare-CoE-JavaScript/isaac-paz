@@ -1,0 +1,22 @@
+org: ispmdevelop
+app: aws-python-example
+service: python-env-example
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.8
+
+  environment:
+    variable: value1
+    variable2: value3
+    FIRST_NAME: "Gina"
+
+functions:
+  hello-env-gina:
+    handler: handler.hello
+  hello-env-marc:
+    handler: handler.hello
+    environment:
+      FIRST_NAME: "Marc"
