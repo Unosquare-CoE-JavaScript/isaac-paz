@@ -58,3 +58,12 @@
   }
 }
 ```
+
+## Choice State
+
+- **Choice** Allows the user to use Branching Logic based on the input
+
+## Task State
+
+- Takes input and produces output
+  - For example, a Lambda function that calculates the age of a cat in human years
