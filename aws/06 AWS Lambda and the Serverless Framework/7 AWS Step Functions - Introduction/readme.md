@@ -1,4 +1,4 @@
-# Step Functions
+# 7 Step Functions
 
 - AWS Step functions
   - A Service that allows developer build visual workflows for business processes

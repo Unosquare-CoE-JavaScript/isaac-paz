@@ -1,4 +1,4 @@
-# Create a SAM Lambda app with VSCode
+# 6 Create a SAM Lambda app with VSCode
 
 **Create de project**
 

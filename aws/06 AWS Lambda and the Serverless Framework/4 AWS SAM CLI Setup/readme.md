@@ -1,4 +1,4 @@
-# AWS SAM CLI Setup
+# 4 AWS SAM CLI Setup
 
 - Run Lambda locally using AWS toolkit for VS Code
   - You'll need to have VS code installed

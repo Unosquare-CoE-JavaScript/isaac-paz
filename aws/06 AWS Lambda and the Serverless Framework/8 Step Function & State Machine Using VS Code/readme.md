@@ -1,4 +1,4 @@
-# Creating Step & State machine Using VS Code
+# 8 Creating Step & State machine Using VS Code
 
 - On AWS VS Code extension you can:
   - Download de definition of the step function

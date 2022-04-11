@@ -1,4 +1,4 @@
-# AWS SAM CLI Running AWS Lambda Function Locally
+# 5 AWS SAM CLI Running AWS Lambda Function Locally
 
 - What is AWS SAM
 

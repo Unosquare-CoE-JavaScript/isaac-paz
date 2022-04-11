@@ -1,4 +1,4 @@
-# AWS Lambda console - Create your first Lambda Function
+# 2 AWS Lambda console - Create your first Lambda Function
 
 - Deploying Hello World Function Using AWS Lambda
   - Sign up for an AWS Account
