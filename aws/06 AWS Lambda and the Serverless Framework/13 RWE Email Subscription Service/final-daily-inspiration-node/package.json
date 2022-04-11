@@ -1,0 +1,12 @@
+{
+  "name": "final-daily-inspiration-node",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "@sendgrid/mail": "^7.6.2",
+    "axios": "^0.26.1",
+    "express": "^4.17.1",
+    "serverless-http": "^2.7.0",
+    "uuid": "^8.3.2"
+  }
+}
