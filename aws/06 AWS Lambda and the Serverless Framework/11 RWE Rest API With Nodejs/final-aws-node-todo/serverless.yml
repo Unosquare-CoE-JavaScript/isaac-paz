@@ -1,0 +1,79 @@
+service: final-aws-node-todo
+frameworkVersion: "3"
+
+custom:
+  tableName: "todos-table-${sls:stage}"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [UsersTable, Arn]
+  environment:
+    TODO_TABLE: ${self:custom.tableName}
+
+functions:
+  create:
+    handler: handler/createTodo.createTodo
+    events:
+      - http:
+          path: todos
+          method: post
+          cors: true
+
+  list:
+    handler: handler/listTodos.listTodos
+    events:
+      - http:
+          path: todos/list
+          method: get
+          cors: true
+
+  get:
+    handler: handler/getTodo.getTodo
+    events:
+      - http:
+          path: todos/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: handler/updateTodo.updateTodo
+    events:
+      - http:
+          path: todos/update/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: handler/deleteTodo.deleteTodo
+    events:
+      - http:
+          path: todos/delete/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
