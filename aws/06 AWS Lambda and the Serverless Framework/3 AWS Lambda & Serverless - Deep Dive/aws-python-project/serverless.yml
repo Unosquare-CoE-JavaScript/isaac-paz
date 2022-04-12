@@ -1,0 +1,33 @@
+service: aws-python-project
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.8
+  profile: serverless-admin
+  region: us-east-1
+
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "lambda:*"
+          Resource:
+            - "*"
+
+functions:
+  # hello-short-timeout:
+  #   handler: handler.hello
+  #   description: "Short timeout function"
+
+  # hello-long-timeout:
+  #   handler: handler.hello
+  #   timeout: 6
+  #   memorySize: 256
+  #   description: "Long timeout function"
+
+  python-example-iam-dev-hello-iam-example:
+    handler: handler.hello
+    description: "python-example-iam-dev-hello-iam-example"

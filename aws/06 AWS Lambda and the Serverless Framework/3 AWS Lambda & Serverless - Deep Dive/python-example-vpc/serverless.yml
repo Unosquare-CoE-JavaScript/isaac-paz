@@ -1,0 +1,26 @@
+org: ispmdevelop
+app: aws-python-example
+service: python-example-vpc
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.8
+  vpc:
+    securityGroupIds:
+      - sg-050b3d977de192b3a
+    subnetIds:
+      - subnet-029900df36c2c00f7
+      - subnet-0317c0f7dc36b14c0
+
+functions:
+  hello-vpc:
+    handler: handler.hello
+    # vpc:
+    #   securityGroupIds:
+    #     - securityGroupId1
+    #     - securityGroupId2
+    #   subnetIds:
+    #     - subnetId1
+    #     - subnetId2

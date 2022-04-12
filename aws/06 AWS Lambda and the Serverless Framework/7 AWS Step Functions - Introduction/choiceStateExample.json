@@ -1,0 +1,65 @@
+{
+  "StartAt": "Pass",
+  "States": {
+    "Pass": {
+      "Type": "Pass",
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.dinnerChoice",
+          "IsBoolean": true,
+          "Next": "KindOfFood"
+        }
+      ],
+      "Default": "indifferent"
+    },
+    "KindOfFood": {
+      "Type": "Pass",
+      "Next": "FoodChoices"
+    },
+    "FoodChoices": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foodType",
+          "StringMatches": "chinese",
+          "Next": "ChineseItIs"
+        }
+      ],
+      "Default": "BadChoice"
+    },
+    "ChineseItIs": {
+      "Type": "Pass",
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "Success"
+    },
+    "Success": {
+      "Type": "Succeed"
+    },
+    "BadChoice": {
+      "Type": "Pass",
+      "End": true
+    },
+    "indifferent": {
+      "Type": "Pass",
+      "Next": "Thinking"
+    },
+    "Thinking": {
+      "Type": "Wait",
+      "Seconds": 3,
+      "Next": "StayHome"
+    },
+    "StayHome": {
+      "Type": "Pass",
+      "End": true
+    }
+  },
+  "Comment": "Dinner tonight"
+}
