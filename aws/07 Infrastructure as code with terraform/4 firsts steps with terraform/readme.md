@@ -38,3 +38,20 @@ output "instance_ip" {
 }
 
 ```
+
+## Local Modules
+
+- You can split definition of resources into other files and use them as modules
+- When you want to "Invoke" a modules you have to follow the next sintax and pass the variables that the module is waiting as properties
+
+```
+module "app" {
+  source        = "./modules/instance" #path to the module's folder
+  ami_id        = var.ami_id
+  instance_type = var.instance_type
+  tags          = var.tags
+  sg_name       = var.sg_name
+  ingress_rules = var.ingress_rules
+}
+
+```
