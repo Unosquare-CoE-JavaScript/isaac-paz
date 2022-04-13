@@ -39,14 +39,14 @@ output "instance_ip" {
 
 ```
 
-## Local Modules
+## Local and remote Modules
 
 - You can split definition of resources into other files and use them as modules
 - When you want to "Invoke" a modules you have to follow the next sintax and pass the variables that the module is waiting as properties
 
 ```
 module "app" {
-  source        = "./modules/instance" #path to the module's folder
+  source        = "./modules/instance" #path to the module's folder or an URL where the module is saved example a repository on github
   ami_id        = var.ami_id
   instance_type = var.instance_type
   tags          = var.tags
