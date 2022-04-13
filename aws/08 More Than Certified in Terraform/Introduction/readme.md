@@ -1,0 +1,53 @@
+# 1 Introduction to terraform
+
+- How terraform works:
+  - Written in golang
+  - Interfaces with API of the provider (AWS, Azure, Docker, etc)
+  - Options
+    - Create
+    - Read
+    - Update
+    - Delete
+  - Workflow
+    - 1 - Write
+    - 2 - Plan
+    - 3 - Apply
+  - State
+    - Store the information about the current environment
+    - Is created base on the configuration files and any changes are committed to the infrastructure via the API
+    - Only knows about resources created by it, if those resources are missing, it can replace, but cannot see other sources
+  - IaC Workflow
+    - Terraform code (Write your code)
+    - Git Repository (Save it to git repository)
+    - CI/CD Tools (Run code via some tool like jenkins)
+    - Infrastructure (Create the infrastructure on the provider)
+    - Application (Create de application)
+  - Declarative programming
+    - What do you want the final deployment to look like?
+    - "I want a VPC and 2 EC2 instances that are connected to an IGW for internet access"
+    - Requires "state"
+    - Process is more abstracted
+    - Idempotent
+    - Primary Terraform operation
+  - Procedural(imperative) programming
+    - How do you want to deploy resources?
+    - Create the VPC first, then create the IGW, then create the EC2 instances
+    - Not dependent on state
+    - Running an operation twice will still perform the operation, regardless of its previous execution or the damage it can cause
+    - Terraform can perform imperative tasks, but it is best practice to keep the code as declarative as possible
+  - Terraform vs CloudFormation
+    - Terraform
+      - Open source
+      - HCL Syntax
+      - Vendor Neutral
+      - Requires state management and storage
+      - Requires resources to run
+      - Requires logging infrastructure
+      - Breaking changes are generally more likely
+    - CloudFormation
+      - JSON/YAML Syntax
+      - Only useful with AWS resources
+      - state is managed by AWS
+      - is run within AWS for free
+      - Integrates with cloudWatch (among other services)
+      - Typically more reliable from version-to-version for AWS infrastructure
