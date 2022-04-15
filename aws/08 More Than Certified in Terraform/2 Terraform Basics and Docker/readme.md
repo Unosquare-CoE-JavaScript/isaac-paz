@@ -175,3 +175,96 @@ ext_port = 1880
 ```
 
 - You can use several file in order to manage numerous environments you can define with tfvar file to read from the console like this: `terraform apply --var-file file.tfvars`
+
+### Local Values
+
+- Use to save a long expression or something you are going to use frequently
+- Different from values this does allows functions
+
+Example:
+
+```
+<!-- Definition -->
+locals {
+  container_count = length(ext_port)
+}
+
+<!-- Call -->
+resource "random_string" "random" {
+  count   = local.container_count
+  length  = 4
+  special = false
+  upper   = false
+}
+```
+
+### Functions
+
+- length(var) = (Return the length of a list)
+- min(1,2,3) = (Returns the minimum values of the parameters passed)
+- max(1,2,3) = (Returns the maximum values of the parameters passed)
+- (Spread operator) `[1,2,3]...` -> 1, 2, 3 (Returns the values of a list as parameters) useful example `max([1,2,3]...)` or `max(var.myList...)`
+
+## Path references and string interpolation
+
+- path.cwd (returns the path of the current working directory)
+- path.root
+- path.module
+- **String interpolation**
+  - Inside a strin you can interpolate a variable with the next syntax
+  - `"Hello my name is: ${var.name}"`
+
+### Maps and Lookups
+
+- We can lookup into a value in a map, by the lookup function that takes the map and the key we are trying to access.
+- We can use this to manage values environment in variables
+
+```
+> lookup({dev = "image1", prod = "image2"}, "dev")
+"image1"
+> lookup({dev = "image1", prod = "image2"}, "prod")
+"image2"
+>
+
+<!-- Example of selection a type of image depending on environment -->
+<!-- Variable Definition -->
+variable "image" {
+  type        = map(any)
+  description = "Image for container"
+  default = {
+    dev  = "nodered/node-red:latest"
+    prod = "nodered/node-red:latest-minimal"
+  }
+}
+
+<!-- Usage -->
+> lookup(var.image, "prod")
+"nodered/node-red:latest-minimal"
+> lookup(var.image, "dev")
+"nodered/node-red:latest"
+```
+
+### Workspaces
+
+- Allows you to have multiple workspaces to manage in a better way environments
+- Allows you to have multiple states
+- Not all backend supports workspaces so it is a good idea to check before implementing
+- Commands
+  - `terraform workspace new dev` Creates a new workspace named "dev"
+  - `terraform workspace show` Shows current workspace you are in
+  - `terraform workspace list` Shows all terraform workspaces
+  - `terraform workspace select dev` Change workspace to dev
+
+**Referencing your workspace in your script**
+
+- You can access to your terraform workspace name value by this expression: `terraform.workspace` in your HCL code
+  Example
+
+```
+<!-- A Resource named in base of the workspace  -->
+resource "docker_container" "nodered_container" {
+  count = local.container_count
+  name  = join("-", ["nodered", terraform.workspace, random_string.random[count.index].result])
+  image = docker_image.nodered_image.latest
+}
+```
