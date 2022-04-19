@@ -15,16 +15,29 @@ resource "docker_container" "app_container" {
     external = var.ext_port_in[count.index]
   }
 
-  volumes {
-    container_path = var.container_path_in
-    volume_name    = docker_volume.container_volume[count.index].name
+  dynamic "volumes" {
+    for_each = var.volumes_in
+    content {
+      container_path = volumes.value["container_path_each"]
+      volume_name    = module.volume[count.index].volume_output[volumes.key]
+    }
   }
+
+  # provisioner "local-exec" {
+  #   when    = create
+  #   command = "echo ${self.name}: ${self.ip_address}: ${join("", [for x in self.ports[*]["external"] : x])} >> containers.txt"
+  # }
+
+  # provisioner "local-exec" {
+  #   when    = destroy
+  #   command = "rm -f containers.txt"
+  # }
 }
 
-resource "docker_volume" "container_volume" {
-  count = var.count_in
-  name  = "${var.name_in}-${random_string.random[count.index].result}-volume"
-  lifecycle {
-    prevent_destroy = false
-  }
+
+module "volume" {
+  source       = "./volume"
+  count        = var.count_in
+  volume_count = length(var.volumes_in)
+  volume_name  = "${var.name_in}-${terraform.workspace}-${random_string.random[count.index].result}-volume"
 }
