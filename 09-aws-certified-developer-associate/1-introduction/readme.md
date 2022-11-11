@@ -15,7 +15,7 @@
 * CodePipeline
 * Advance IAM
 
-### Exam blueprint
+### 1.2 Exam blueprint
 * Domains (sections)
   * Deployment = 22%
   * Security = 26%
