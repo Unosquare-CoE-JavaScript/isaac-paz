@@ -299,3 +299,30 @@ objectives
 * Connect to the RDS instance
 
 ### 3.17 RDS Multi-AZ and Read Replicas
+
+**Multi-AZ**
+* Is an exact copy of you database in another Availability Zone
+* If something is wrong with the primary Database this second database takes a primary role 
+* AWS handles the replication for you
+* When you write to your production database this write will automatically synchronize to the standby database
+* All of the RDS can be configure as Multi-AZ
+* RDS will automatically failover to the standby during a failure so that database operations can resume quickly without administrative intervention
+* Multi-AZ is for Disaster recovery
+* this is not for scaling purposes
+* Only one database is available on a current time
+
+**Read Replicas**
+* A read only copy of your primary database
+* Can be located at the same AZ of your primary zone, another AZ or event another region
+* Each replica has its own DNS endpoint
+* Read replicas can be promoted to be their own independent databases, this broke the replications
+* Scaling read performance
+  * Primarily used for scaling, not for DR!
+* Requires automatic backup
+  * Automatic backups must be enables in order to deploy a read replica
+* Multiple Read replicas are supported
+  * MYSQL, MariaDB, PostgreSQL, Oracle, and SQL server allow you to add up to 5 read replicas to each DB instance
+
+
+
+
