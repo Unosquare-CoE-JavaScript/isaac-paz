@@ -323,6 +323,52 @@ objectives
 * Multiple Read replicas are supported
   * MYSQL, MariaDB, PostgreSQL, Oracle, and SQL server allow you to add up to 5 read replicas to each DB instance
 
+### 3.18 RDS Backups and Snapshots
+
+Two ways to backup RDS
+
+* Snapshot: Manual, ad-hoc, and user-initiated it provides a snapshot of the storage volume attached to the DB instance
+* Automated Backup: Enable by default it created daily backups or snapshots that run during a backup windows that you define, it generates transactions logs are used to replay transactions
+
+**Automated backup:**
+* Point in time recovery: recover your database to any point int time within a "retention period" of 1-35 days
+* Full daily backup:RDS takes a full daily backup, or snapshot, and also store transactions logs throughout the day
+* The recovery process: When you do a recovery, AWS will first choose the most recent daily backup and then apply transactions logs relevant to that day, up to the recovery point
+* this are stored in s3: automated backups and snapshots are stores in s3
+* Free storage: you get free storage space equal to the size of your database. so if you have an RDS instance of 10GB, you will get 10GB worth of storage
+* Defined backup windows: During the backup windows, storage I/O may be suspended for a few seconds while the backup process initializes, and you may experience increased latency at this time
 
 
+**Snapshots:**
+* Not automated: Db snapshots are done manually(they are user-initiated)
+* No retention period: Manual snapshots are not deleted even after you delete the original RDS instance, including any automated backup
+* Backup to a know state: Back up your DB instance in a know state as frequently as you wish, and then restore to that specific state at any time
 
+**Restoring your RDS database**
+the restored version of the database will always be a new RDS instance with a new DNS endpoint
+
+**Encryption at rest**
+* You can enable it at creation time
+* It is integrated with KMS keys
+* Includes all the underlying storage, automated backups, snapshots, logs, and read replicas
+* You can not enable encryption on an unencrypted RDS DB instance
+
+
+### 3.19 Elasticache 101
+
+* In-memory cache(Key value): ElastiCache makes it easy to deploy, operate, and scale an in-memory cache in the cloud
+* Improves Database performance: it allows you to retrieve information form fast, in memory caches instead of slower disk-based storage
+* Great for Read-heavy Database Workloads: caching the results of I/O intensive database queries. Also for storing session data for distributed applications
+
+**Types**
+   * Memcached: 
+     * Great for basic object caching, scales horizontally, but there is no persistence, Multi-AZ or failover
+     * A good choice if you just want basic caching and you want your caching model to be as simple as possible
+   * Redis
+     * A more sophisticated solution with enterprise features like persistence, replication, Multi-AZ and failover
+     * Supports sorting and ranking data and complex data types like lists and hashes
+
+### 3.20 Systems manager parameter store - Demo
+
+Objectives
+* Create a string param on Params store
