@@ -40,3 +40,110 @@
 * Server side encryption: you can set default encryption on a bucket to encrypt all new object when they are stored in the bucket
 * Access Control Lists (ACLs): Define which AWS accounts or groups are granted access and the type of access. You can attach S3 ACLs to individual object within a bucket
 * bucket policies: S3 bucket policies specify what actions are allowed or denied (e.g., allow user Alice to PUT but not DELETE objects in the bucket)
+
+### 4.2 Reviewing S3 Storage Classes
+
+* **S3 Standard**
+  * High Availability an Durability: Data is stored redundantly across multiple devices in multiples facilities (>= 3 AZs)
+    * 99.99% Availability
+    * 99.999999999 (11 9's)
+  * Designed for frequent Access: Perfecto fro frequently accessed data
+  * Suitable for most workloads
+    * the default storage class
+    * use cases includes website,content distribution, mobile and gaming applications, and big data analytics
+* **S3 Standard-Infrequent Access (S3-IA)**
+  * Designed for infrequently accessed data (few times a month)
+  * Rapid Access: Used for data that is accessed less frequently but required rapid access when needed
+  * You Pay to Access the data: There is a low per-GB storage price and a per-GB retrieval fee
+  * Use cases: great for long-term storage, backups, and disaster recovery files
+    * Minimum storage duration 30 days
+  * 99.99% Availability
+  * 99.999999999 (11 9's)
+* **S3 One Zone-Infrequent Access**
+  * Like the S3-IA, but data is stored redundantly within a single AZ
+  * Costs 20% less than the S3-IA
+  * great for long-lived, infrequently accesses, non-critical data
+  * Minimum storage duration 30days
+  * 99.5% Availability
+  * 99.999999999 (11 9's)
+*** Glacier and Glacier deep archive**
+  * Very cheap
+  * Optimized for data that is very infrequently accessed
+  * You pay each tim you access your data
+  * Uso only for archiving data
+  * **Glacier**
+    * Provides long-term data archiving with retrieval times that range from 1 minute to 12 hours
+    * Historical data only accessed a few times per year
+    * 90 days of storage minimum
+  * **Glacier Deep Archive**
+    * archives rarely accessed data with a default retrieval time of 12 hours
+    * financial records that may be accessed once or twice a year
+    * 180 days of storage minimum
+  * 99.99% Availability
+  * 99.999999999 (11 9's)
+* S3 intelligent tiering
+  * 2 tiers frequent and infrequent access
+  * Automatically moves your data to the most cost-effective tier based on how frequently you access each object
+  * Optimizes costs: added monthly fee of 0.0025$ per 1000, objects
+  * 99.99% Availability
+  * 99.999999999 (11 9's)
+  
+
+### 4.3 Securing S3 Buckets
+* Private: by default all newly created buckets are private
+* Bucket owner: by default, only the bucket owner can upload new files, read files, delete files, etc
+* No public access: No public access by default
+* Bucket policies:
+  * You can set up access control to you bucket using bucket policies
+  * Applied at bucket level: the permissions granted by the policy apply to all of the objects within the bucket
+  * Not individual objects: You can't attach a bucket policy to an individual object
+  * Group of files: A group of files which need to be accessed by the same people
+  * They are written in JSON
+* Bucket Access controls lists (ACLs)
+  * Applied at an object level: we can apply different permissions for different objects within a bucket
+  * Grant access to objects: We can define which account or groups are granted access and also the type of access, e.g. read, write, or full control
+  * Fine grained control: Grant a different type of access to different object within the same bucket. e.g. to apply different permissions for different objects, for different users and groups
+* Access Logs
+  * Log all requests made to the s3 bucket
+  * Every time a user makes a request to upload, read or delete a file logs are written into another S3 bucket
+  
+### 4.4 ACLs and bucket Policies Demo Part 1 && 2
+Objectives: 
+* Create an S3 bucket
+* Upload some files
+* Configure an Access control list
+* Configure a bucket policy
+
+### 4.5 Create a static website using Amazon S3 (Lab)
+* Create a public S3 bucket
+* Load index.html and error.html files
+* Configure bucket to be an static page web server
+* Add policy to allow everyone to access the bucket 
+
+### 4.6 S3 Encryption
+
+**Types of encryption**
+* Encryption in Transit: SSL/TLS using HTTPS
+* Encryption at Rest: Server side Encryption
+  * SSE-S3: S3 managed keys, using AES 256-bit encryption
+  * SSE-KMS: AWS key management service managed keys
+  * SSE-C: Customer provided keys
+* Encryption at Rest: Client Side encryption
+  * You encrypt the files yourself before you upload them into S3
+  
+**Enforcing server side encryption**
+* Console:
+  * select the encryption setting on your S3 bucket
+  * The easiest way, just a check box in the console
+* Bucket Policy:
+  * You can also enforce encryption using a bucket policy
+  * This method does sometimes come up in the exam
+  * this works by creating a policy which denies any S3 PUT request which does not include the "x-amz-server-side-encryption" parameter in the request header
+  * You can ensure encryption at transit with a bucket policy with the conditional option "aws:SecureTransport" to enforce HTTPS/SSL
+
+### 4.7 Configuring Encryption on an S3 Bucket (Demo)
+Objectives:
+* Create an S3 bucket
+* Review encryption options
+* enforce encryption using a bucket policy
+* Test our set-up
