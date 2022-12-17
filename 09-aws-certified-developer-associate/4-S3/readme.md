@@ -147,3 +147,134 @@ Objectives:
 * Review encryption options
 * enforce encryption using a bucket policy
 * Test our set-up
+
+### 4.8 CORS configuration Demo
+* Create a bucket with static web site rendering
+  * configure it with ACLs enables and make it public
+  * upload index.html and error.html to the bucket
+  * make the files read access by public
+  * in the index.html reference another html link to the bucket we are going to create
+* create another bucket with static web site rendering
+  * configure it with ACLs enables and make it public
+  * upload otherResource.html to the bucket
+  * make the files read access by public
+  * under permissions bucket tab configure the cors policy to this bucket with a policy similar to this:
+  
+  ```
+  [
+    {
+        "AllowedHeaders": [
+            "Authorization"
+        ],
+        "AllowedMethods": [
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "http://myindexwebsite-isaac.s3-website-us-east-1.amazonaws.com"
+        ],
+        "ExposeHeaders": [],
+        "MaxAgeSeconds": 3000
+    }
+
+  ```
+
+### 4.9 Overview of CloudFront (CDN)
+* **Amazon content delivery network**
+  * A system of distributed server which deliver webpages and other web content
+  * Easy and cost effective way to distribute content with low latency and high data transfer speeds
+* **Terminology**
+  * Edge location
+    * a collection of servers which are in geographically different centers 
+    * Holds a copy of your content to improve performance of your web page
+    * First request ask for the content to the central server and then caches the content locally on each Edge location
+    * This is separated to an AWS Region/AZ
+  * CloudFront Origin
+    * This is the origin of all the files that the distribution will serve. Can be an:
+      * S3 Bucket
+      * EC2 Instance
+      * Elastic Load Balancer
+      * Route 53 
+  * CloudFront Distribution
+    * This is the name given to the Origin and configuration settings for the content you whish to distribute using CloudFront (CDN)
+  
+
+* **Improvement the performance for your website**
+  * Deliver your entire website
+  * Global network of 200+ edge location
+  * Request for your content are automatically routed to the nearest edge location, so content is delivered with the best possible performance
+  * Allows you to optimize performance for users accessing your web site from all around the world
+
+* **Optimized to work with other Amazon web services**
+  * S3
+  * EC2
+  * ELB
+  * Route53
+* also work seamlessly with any non-AWS origin server, which stores the original, definitive versions of your files
+
+* **Cache**
+  * Objects are cached for a period of time which is their time to live
+  * The default TTL is 1 day, and when the TTL is up, the object is automatically cleared from the cache
+  * You can clear the object manually from the cached but you will be charged for that
+
+* **Cloudfront & S3 Transfer Acceleration**
+  * S3 Transfer Acceleration enables fast, easy, and secure transfers of file over long distances between your end users, and an S3 Bucket.
+  * this way users can upload files into the edge locations and then automatically the edge locations duplicate the data into the s3 origin
+
+* Exam tips:
+  * Edge locations are not just READ only you can Write to them too (as in S3 transfer acceleration)
+
+## 4.10 Configuring Amazon CloudFront DEMO
+* Create an S3 bucket
+* Access an image from the s3 bucket
+  * control the time
+* Create a Cloudfront distribution
+* Access the image using the cloudfront edge locations
+  * control the time
+  * compare the response time
+
+## 4.11 Configuring Amazon cloudFront with Origin Access Identity
+* Create an S3 bucket
+  * Enable public access and upload an image to the bucket
+* Create a Cloudfront distribution
+  * Create an origin Access identity
+* When the distributions is ready
+  * Check we can access the image using Cloudfront
+* Restrict Access
+  * Remove public read access from our bucket
+  * We should only be able to access the image using the cloudfront URL
+
+* Exam Tips
+  * Origin Access Identity (OAI)
+    * An OAI is a special CloudFront user that can access the files in our bucket and server them to users
+  * Restrict Access
+    * OAI allows us to restrict access to the contents of our bucket, so that all users must use the CloudFront URL instead of a direct S3 URL
+  
+## 4.12 Understanding CloudFront AllowedMethod
+* Allowed methods
+  * when you create a CloudFront distribution, you need to specify which HTTP methods your distribution will support
+    * GET, HEAD (read only methods)
+    * GET, HEAD, OPTIONS (read only methods)
+    * GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE (read and write methods)
+  * Use read and write methods only if you client need those permissions
+  * GET
+    * Read data, oftern the default method used by HTTP clients
+    * Red a web page
+  * HEAD
+    * Inspect resource headers; similar to GET, except without the response body
+    * Read a web page's header
+  * PUT
+    * Send data to create a new resource, or replace an existing resource, idempotent
+    * Update data or change the status of a resource
+  * PATCH
+    *  Partially modify a resource
+    *  Modify the contents of a shopping cart
+ *  POST
+    *  Insert data; used to create or update a resource. Not idempotent
+    *  commend on a blog post
+ *  DELETE
+    *  Delete data
+    *  Remove your email address from a mailing list
+  * OPTIONS
+    * Used to find out what other HTTP methods are supported by the given URL.
+
+* Write methods consider restricting access at your origin level, to restrict users from performing operations that you do not want them to
