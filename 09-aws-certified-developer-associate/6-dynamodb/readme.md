@@ -178,3 +178,103 @@
   * You should understand what they are used for at a high level, understand the differences between them, and be aware that the user must have the correct IAM permissions.
 
 ## 6.8 DynamoDB Provisioned Throughput 
+* Measured in capacity units
+  * Specify requirements
+    * When you create your table, you can specify your requirements in terms of read capacity units and write capacity units
+  * Write Capacity Units
+    * 1 x write capacity unit = 1 x 1KB write per second
+  * Read capacity Units
+    * 1 x read capacity unit = 
+      * 1 x strongly consistent read of 4KB per second
+      * OR
+      * 2 x eventually consistent reads of 4KB per second(defaults)
+    * Example
+      * A table wit h5 read and write capacity units is going to be able to do the following
+        * 5 x 4KB strongly consistent reads = 20KB per second
+        * Twice as many eventually consistent = 40KB per second
+        * 5 x 1KB writes = 5KB per second
+
+## 6.9 DynamoDB On-Demand Capacity
+* Price model
+* Charges apply for reading, writing, and storing data
+* DynamoDB instantly scales up and down based on the activity of your application
+* Which pricing models should i use?
+  * On-Demand Capacity
+    * Unknown workloads
+    * Unpredictable application traffic
+    * Spiky, short-lived peaks
+    * A pay-per-use model is desired
+    * It might be more difficult to predict the cost
+  * Provisioned Capacity
+    * Read and write capacity requirements can be forecasted
+    * Predictable application traffic
+    * Application traffic is consistent or increases gradually
+    * You have more control over the cost
+
+## 6.10 DynamoDB Accelerator (DAX)
+* DynamoDB Accelerator (or DAX) is a fully managed, clustered in-memory cache for DynamoDB
+* Deliver up to a 10x read performance improvement, Microsecond performance for millions of requests per second
+* Ideal for
+  * Read-Heavy Workloads: like auction applications, gaming, and retail sites during Black Friday promotions
+* How does DAX work 
+  * DAX is a write-through caching service. Data is written to the cache and the backend store at the same time
+  * This allows you to point your DynamoDB API calls at the DAX cluster
+  * if the item you are querying is in the cache (cache hit) DAX returns the result
+  * if the item is not available (cache miss), then DAX performs an eventually consistent GetItem operation against DynamoDB and returns the result on the API call
+* Benefits
+  * May be able to reduce provisioned read capacity on your table and save money on your AWS bill
+* When is DAX not suitable
+  * Caters for eventually consistent read only
+  * Not suitable for applications that require strongly consistent reads
+  * Not suitable for write intense applications
+  * Not suitable for applications that do not perform many read operations
+  * Not suitable for applications that do not require microsecond response times
+  
+## 6.11 Dynamodb Time To Live TTL - Demo
+* What is it
+  * Defined an expiring time for your data Expired items marked for deletion
+  * Great or removing irrelevant or old data (e.g. session, data, event logs, and temporary data)
+  * Reduces the cost of you table by automatically removing data which is no longer relevant
+
+## 6.12 DynamoDB Streams
+* What is Dynamodb streams
+  * Time ordered sequence:
+    * time ordered sequence of item level modification (e.g., insert, update, delete)
+  * Logs:
+    * Encrypted at rest and stored for 24 hours
+    * almost log on near real time
+  * Dedicated endpoint:
+    * Accesses using a dedicated endpoint
+  * Primary key:
+    * By, default the primary key is recorded
+  * Images:
+    * Before and after images can be captures
+  * Use cases:
+    * Audit or archive transactions, trigger an event based on a particular transaction, or replicate data across multiple tables
+* Applications can take actions based on contents of the stream
+  * A dynamodb stream can be an event source for lambda
+  * Lambda polls the DynamoDB stream and executes based on an event
+
+* Exams tips
+  * Sequence of modifications
+    * DynamoDB Streams is a time-ordered sequence of item level modifications in your DynamoDB tables
+  * Encrypted and stored
+    * Data is stored for 24 hours only
+  * Lambda Event Source
+    * Can be used as an event source for lambda, so you can create applications that take actions based on events in your DynamoDB table.
+  
+## 6.13 Provisioned Throughput and Exponential Back-off
+* ProvisionedThroughputExceededException
+  * Your request rate is too high for read / write capacity provisioned on your DynamodB table
+* Using the AWs SDK?
+  * The SDK will automatically retry the requests until successful
+* Not Using the AWS SDK
+  * Reduce your request frequency
+  * Use exponential backoff
+* What is exponential backoff
+  * Overloaded components:
+    * The requester uses progressively longer waits between consecutive retries, for improved flow control
+    * In addition to simple retries, all AWS SDKs use exponential backoff
+    * If after 1 minute this does not work, your request size may be exceeding the throughput for you read/write capacity
+
+
