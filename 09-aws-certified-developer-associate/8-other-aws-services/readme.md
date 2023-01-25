@@ -224,5 +224,159 @@
     * Real-time analytics using standard SQL data received by Kinesis data stream and kinesis data firehose. stores the processed data in AWS data stored (e.g. S3, redshift, or OpenSearch)
 
 ## 8.9 Setting up a Kinesis Stream - Demo
+* Using cloud formation
+  * It is going to create an EC2 Java app (Producer and consumer)
+  * Kinesis Data Stream (Capture streaming data)
+  * DynamoDB (store the data)
+
+## 8.10 Kinesis Shards and Consumers
+* Kinesis recap
+  * A kinesis data stream is a set of shards
+  * A shard is a sequence of data records in a stream, each data record has a unique sequence number
+  * The data capacity of your stream is the sum total capacity of its shards
+  * Per shard:
+    * 5 read transactions per second, up to a max of 2MB per second
+    * 1000 write records per second, up to a max of 1MB per second
+  * As you data rate increases, you increase the number of shards(resharding)
+* But what about consumers (Kinesis Client Library)
+  * Kinesis client library runs on the consumer instances
+  * Tracks the number of shards in your stream
+  * Discovers new shards when you reshard
+  * if you have only one consumer, the KCL will create all the record processors on a single consumer
+  * If you have two consumers it will load balance an create half the processors on one instance and half on another
+* Scaling out the consumers
+  * With KCL, generally you should ensure that the number of instances does not exceed the number of shards (except for failure or standby purposes)
+  * You never need multiple instances to handle the processing load on one shard
+  * However, one worker can process multiple shards
+  * It's fine if the number of shards exceeds the number of instances
+  * Don't think that just because you reshard, that you need to add more instances
+  * Instead, CPU utilization is what you should drive to quantity of consumer instances you have, NOT the number of shards in your kinesis stream
+  * Uso an Auto Scaling group, and base scaling decisions on CPU load on your consumers
+
+* Exam tips
+  * The kinesis clinet library running on your consumers creates a record processor for each shard that is being consumed by your instance
+  * If you increase the number of shards, the KCL will add more record processors on your consumers
+  * CPU utilization is what should drive the quantity of consumers instances you have, Not the number of shards in your kinesis stream
+  * Use an Auto scaling group, and base scaling decisions on CPU load on your consumers
+
+## 8.11 Introducing Elastic Beanstalk
+* what is it?
+  * Allows you to deploy and scale your web applications
+  * Support languages: Java, .NET, PHP, Nodejs, python, ruby and go
+  * Supported platforms: Apache tomcat, Docker
+  * Developers benefits
+    * Focus on writing code, and don't worry about any of the underlying infrastructure needed to run the application
+* What does elastic beanstalk handle:
+  * Infrastructure: provisioning infrastructure, load balancing, auto scaling, and application health monitoring
+  * Application platform: Installation and management of the application stack including patching and updates to your operating system and application platform
+  * you are in control: You have complete administrative control of the AWS resources
+  * No additional charges for using Elastic Beanstalk
+* Benefits for developers
+  * Developers do not have to be sysadmins
+  * You don't need to worry about any of the underlying infrastructure needed to run the application
+  * Get you application to market faster
+  * Fastest and simplest way to deploy you application on AWS
+
+* Exam tips
+  * Deploy and scale applications including the web application server platform
+  * Los of programming languages
+  * Managed platforms like Apache tomcat, docker
+  * Provision AWS Resources like: EC2, RDS, S3, load balances, auto scaling groups
+  * System administration: OS and application server updates, Monitoring, metrics, adn health checks are all included
+  * Administrative Control: Can fully manage the EC@ instances for you, or you can take full administrative control
+
+## 8.12 Updating Elastic Beanstalk
+* Several options for deployments updates
+  * All at once
+    * Deploys to all hosts concurrently
+    * You will experience a total outage
+    * Not ideal for mission-critical production systems
+    * Rollback
+      * If the update fails, you need to roll back the changes by re-deploying the original version to all your instances. Resulting in another outage to get back to the previous version
+    * Only use it on development or testing environment, not on Production
+  * Rolling
+    * Deploys the new version in batches
+    * Each batch is taken out of service while the deployment takes place
+    * You environment capacity will be reduced by the number of instances in a batch while the deployment takes place
+    * Not ideal for performance sensitive systems
+    * Rolling back
+      * If the update fails, you need to perform an additional rolling update to roll back changes
+  * Rolling with additional batch
+    * Launches an additional batch of instances. 
+    * Then deploys the new version in batches
+    * Maintains full capacity throughout the deployment
+    * Rolling back
+      * if the updates fails, you need to perform an additional rolling update to roll back the changes
+  * Immutable
+    * Deploys the new version to a fresh group of instances before deleting the old instances
+    * only when the new instances pass their health checks, should the old instances be terminated
+    * Rolling back
+      * If a deployments fails, just delete the new instances
+    * this is the preferred approach for mission critical systems
+  * Traffic splitting
+    * Install the new version on a new set of instances, like an immutable deployments
+    * Forwards a percentage of incoming client traffic to the new application version for a specified evaluation period
+    * If the new instances stay healthy, Elastic Beanstalk forwards the 100% of the traffic to them, and terminates the old ones
+    * Enables canary testing
+
+## 8.13 Deploying an application with elastic Beanstalk - Demo
+* overview
+  * Php code in a zip file
+  * we are going to upload it to Beanstalk
+  * Elastic Beanstalk is going to create an EC2 and publish the app to be accessible form the internet
+
+## 8.14 Advances Elastic Beanstalk
+* Customizing your elastic beanstalk environment
+  * The configuration is different for Amazon linux 1 and amazon linux 2
+  * Amazon Linux 1
+    * configuration file:
+      * Define packages to install, create linux users and groups, run shell commands, enable services, and configure load balancers
+      * Can be written on YAML or JSON format
+      * constrains: The file must have a .config extension an be inside a folder called .ebextensions in the top-level directory of your application source code bundle
+  * Amazon linux 2
+    * It is recommended that you use BuildFile, ProcFile, adn platform hooks whenever possible to configure and run custom code on your environment instances during instance provisioning
+    * BuildFile
+      * For commands that run for short periods, and then exit upon task completion
+      * Create you BuildFile in the root directory of your application source
+      * Format: `<process_name>:<command> make: ./build.sh` <- reference a script in your source code bundle
+    * ProcFile:
+      * For long-running application processes
+      * Create a file called ProcFile in a the root directory of you application source
+      * Format: `<process_name>:<command> make: ./build.sh` <- reference a script in your source code
+      * Elastic Beanstalk expects processes defined in the ProcFile to run continuously, it monitors and restarts any processes that terminate
+    * Platform Hooks:
+      * Custom scripts or executable files that you would like Elastic beanstalk to run at a chosen stage of the EC2 provisioning process
+      * Store in dedicated directories in your application source code
+      * Format: .platform/hooks/prebuild files that you want EB to run before builds, sets up, and configure the application and web server
+      * Format: .platform/hooks/predeploy files that you want to run after it sets up and configure the application and web server but before it deploys them to the final runtime location
+      * Format: .platform/hooks/postdeploy: files that run after EB deploys the application the las deployment workflow step  
+
+## 8.15 EDS & Elastic Beanstalk
+* EB supports two ways of integration an RDS database with your Beanstalk environment: deploy your RDS inside your EB environment, or outside  of it
+  * Option 1: Launch RDS within EB environment
+    * Launch the RDS instances from within the EB console
+    * Its created within your EB environment
+    * If you terminate the environment, then database will also be terminated
+    * It's good option for DEv and Test deployments, not so good for Prod
+  * Option 2: Lunch the RDS outside of EB
+    * Don't use EB to create you RDS database
+    * Instead use the RDS console or AWS cli
+    * It allows you to tear down your application environment without affecting the database instance
+    * This is the preferred approach for production systems
+    * Connection to an outside database:
+      * An additional security group must be added to your environments auto scaling group
+      * You'll need to provide connection string information to your application servers using EB environment properties
+  
+## 8.16 Migration Application to Elastic Beanstalk
+* Scenario
+  * Image you have a .NET application running on windows server in your own data center, you want to migrate this application to AWS and run it in Elastic Beanstalk
+* Migration Assistant Tool
+  * Windows Web application migration assistant
+    * Formerly known as .NET Migration Assistant for Elastic Beanstalk
+  * Interactive Powershell utility
+    * Enables you to migrate a .NET application, or entire website from windows servers in your data center, to Elastic Beanstalk in AWS
+  * Open source
+
+## 8.17 Other AWS services summary part 1
 
 
