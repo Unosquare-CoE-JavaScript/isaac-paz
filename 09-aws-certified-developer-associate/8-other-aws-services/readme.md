@@ -378,5 +378,5 @@
   * Open source
 
 ## 8.17 Other AWS services summary part 1
-
-
+## 8.18 Other AWS services summary part 1
+## 8.19 Quiz
